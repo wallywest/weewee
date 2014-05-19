@@ -1,37 +1,23 @@
-## Using Gulp
+## Baseline JS Angular application
 
-### 1. Install gulp globally:
+### 
+Make sure node is installed on your machine
 
-```
-npm install -g gulp
-```
-
-### 2. Install gulp in your project devDependencies:
+### 1. Install global libraries
 
 ```
-npm install --save-dev gulp
+npm install -g gulp bower
 ```
 
-### 3. Create a `gulpfile.js` at the root of your project:
+### 2. Install from package.json into your project devDependencies:
 
-```javascript
-var gulp = require('gulp');
-
-gulp.task('default', function() {
-  // place code for your default task here
-});
+```
+npm install --save-dev
 ```
 
-### 4. Run gulp:
+### 3. Run gulp and start developing:
 
 ```
 gulp
 
 ```
-
-## Gulp Plugins
-
-```
-gulp-concat gulp-jshint gulp-rename gulp-sass gulp-uglify
-```
-
