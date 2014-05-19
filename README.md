@@ -26,3 +26,12 @@ gulp.task('default', function() {
 
 ```
 gulp
+
+```
+
+## Gulp Plugins
+
+```
+gulp-concat gulp-jshint gulp-rename gulp-sass gulp-uglify
+```
+
