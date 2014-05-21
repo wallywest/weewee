@@ -1,7 +1,7 @@
 ## Baseline JS Angular application
 
 ### 
-Make sure node is installed on your machine
+Make sure node and ruby is installed on your machine
 
 ### 1. Install global libraries
 
@@ -19,5 +19,4 @@ npm install --save-dev
 
 ```
 gulp
-
 ```

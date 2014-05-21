@@ -242,20 +242,22 @@ gulp.task('images', function () {
       .pipe(lp.connect.reload());
 });
 
-// minify in production.
+// compile slim. minify in production.
 gulp.task('views', function () {
   return gulp.src(config.srcViews)
       .pipe(devOnly(lp.plumber()))
       .pipe(lp.changed(config.destViews, {extension: '.html'}))
+      .pipe(lp.slim(config.slim))
       .pipe(prodOnly(lp.minifyHtml(config.minifyHtml)))
       .pipe(gulp.dest(config.destViews))
       .pipe(lp.connect.reload());
 });
 
 // compile index and inject dependencies
-gulp.task('index', ['styles', 'vendorStyles', 'scripts', 'vendorScripts', 'templates'], function () {
+gulp.task('index', ['styles', 'vendorStyles', 'scripts', 'vendorScripts', 'templates', 'ieFixes'], function () {
   return gulp.src(config.srcIndex)
       .pipe(devOnly(lp.plumber()))
+      .pipe(lp.slim(config.slim))
       .pipe(lp.inject(gulp.src(_.union(config.ignoreInject, config.srcInject), {read: false}), {
         ignorePath: [buildPath()]
       }))
@@ -269,6 +271,7 @@ gulp.task('templates', function () {
   return gulp.src(config.srcTemplates)
       .pipe(devOnly(lp.plumber()))
       .pipe(lp.changed(config.destTemplates, {extension: '.html'}))
+      .pipe(lp.slim(config.slim))
       .pipe(prodOnly(lp.minifyHtml(config.minifyHtml)))
       .pipe(gulp.dest(config.destTemplates))
       .pipe(lp.angularTemplatecache({
@@ -363,6 +366,17 @@ gulp.task('spec', function () {
       });
 });
 
+gulp.task('test',function(){
+  karma.start({
+    browsers: ['Chrome'],
+    files: [],
+    frameworks: ['jasmine'],
+    singleRun:true
+  },function(exitCode){
+    console.log(exitCode);
+    process.exit(exitCode);
+  });
+});
 // tags HEAD ref with version
 gulp.task('tag', function (cb) {
   var version = currentVersion();
