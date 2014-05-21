@@ -12,8 +12,8 @@
     "moment": "^2.6.0",
     "angular-ui-utils": "*",
     "angular-once": "^0.1.6",
-    "d3": "~3.4.8"
-
+    "d3": "~3.4.8",
+    "neat": "~1.6.0"
   },
   "devDependencies": {
     "angular-mocks": "^1.2.0"
