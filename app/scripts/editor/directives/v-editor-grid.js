@@ -2,10 +2,10 @@
   'use strict';
 
   var mod = angular.module('gulpie.editor.directives');
-  var svc
+  var svc;
 
   mod.directive('vEditorGrid',['gridSvc',function(gridSvc){
-    svc = gridSvc
+    svc = gridSvc;
 
     var linkFn = function(scope,elem){
       var e = elem[0];

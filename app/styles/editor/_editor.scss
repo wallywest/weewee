@@ -4,3 +4,29 @@
   left: 0;
   right: 0;
 }
+
+.editor-canvas-wrapper {
+  height: 100%;
+}
+
+svg {
+  font: 10px sans-serif;
+  border: solid 1px #aaa;
+}
+
+rect {
+  fill: #ddd;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #ddd;
+  shape-rendering: crispEdges;
+  vector-effect: non-scaling-stroke;
+}
+
+.gridContainer {
+  overflow: hidden;
+  width:100%;
+  height:100%;
+}
