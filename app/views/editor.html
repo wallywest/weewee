@@ -1,11 +1,11 @@
 <div id='editor-ctn' ng-controller='EditorCtrl as editorCtrl'>
-  <div id='editor-menu' ng-controller='EditorMenuCtrl as editorMenuCtrl'>
-    <h3>wtf</h3>
+  <div id='editor-menu' class='editor-menu-wrapper' ng-controller='EditorMenuCtrl as editorMenuCtrl'>
+    <div v-editor-menu ng-show=false></div>
   </div>
-  <div id='editor-canvas-wrapper'>
-    <h3>text</h3>
+  <div id='editor-canvas-wrapper' ng-controller='EditorCanvasCtrl as editorCanvasCtrl'>
+    <div v-editor-grid></div>
   </div>
-  <div id='editor-toolbar' ng-controller='EditorToolbarCtrl as editorToolBarCtrl'>
-    <h3>Toolbar</h3>
+  <div id='editor-toolbar' class='toolbar-wrapper' ng-controller='EditorToolbarCtrl as editorToolBarCtrl'>
+    <div v-editor-toolbar></div>
   </div>
 </div>

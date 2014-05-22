@@ -1,0 +1,16 @@
+.toolbar-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.toolbar {
+  height: 60px;
+  color: #FFF;
+  line-height: 60px;
+  background: #25292b;
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.08);
+  -moz-box-shadow: 0 1px 1px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.08);
+  box-shadow: 0 1px 1px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.08);
+}
