@@ -4,12 +4,15 @@
   var mod = angular.module('gulpie.editor.directives');
   var svc;
 
-  mod.directive('vEditorGrid',['gridSvc',function(gridSvc){
+  mod.directive('vEditorGrid',['gridSvc','$document',function(gridSvc,$document){
     svc = gridSvc;
 
     var linkFn = function(scope,elem){
       var e = elem[0];
-      svc.drawGrid(e);
+
+      angular.element($document).ready(function () {
+        svc.drawGrid(e);
+      });
     };
 
     return {
