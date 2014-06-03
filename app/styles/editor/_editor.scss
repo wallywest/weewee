@@ -31,6 +31,10 @@ rect {
   height:100%;
 }
 
+.grid-background {
+  fill: #ddd;
+}
+
 g.state circle {
   stroke  : gray;
   cursor  : pointer;
@@ -41,7 +45,7 @@ g.state circle.inner {
 }
 
 g.state.hover circle.inner {
-  fill : aliceblue;
+  fill: aliceblue;
 }
 
 g.state circle.outer {

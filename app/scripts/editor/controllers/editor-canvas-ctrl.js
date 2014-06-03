@@ -3,7 +3,7 @@
 
   var mod = angular.module('gulpie.editor.controllers');
 
-  mod.controller('EditorCanvasCtrl',function EditorCanvasCtrl(){
+  mod.controller('EditorCanvasCtrl',function EditorCanvasCtrl($scope){
   });
 
 }(window.angular));
