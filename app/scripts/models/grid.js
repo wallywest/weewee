@@ -6,6 +6,7 @@
     this.nodes = options.data;
     var self = this;
     this.element = options.element
+    this.locked = false;
     this.cx = this.element.clientWidth;
     this.cy = this.element.clientHeight;
     this.ticks = 50;
@@ -43,12 +44,12 @@
     this.container = this.vis.append("g")
     .attr("class","grid");
 
-    /*this.container.call(*/
+ /*   this.container.call(*/
       //d3.behavior.zoom()
       //.x(this.x)
       //.y(this.y)
       //.on('zoom',this.redraw())
-    /*);*/
+    //);
 
     this.redraw();
   }
@@ -105,6 +106,16 @@
     self.drawNodes();
   }
 
+  Grid.prototype.lock = function(value,node,dragCallback) {
+    if(value) {
+      //lock
+      d3.select(node).on('mousedown.drag', null);
+    }else{
+      //unlock
+      node.call(dragCallback);
+    }
+  }
+
   Grid.prototype.drawNodes = function() {
     var drag = d3.behavior.drag()
       .on("drag",function(d,i){
@@ -124,11 +135,14 @@
         });
 
         d3.event.sourceEvent.stopPropagation();
+        d3.event.sourceEvent.stopPropagation();
       });
 
     var clickCallback = function(d) {
+      if (d3.event.defaultPrevented) return;
       var selectedNode = d3.select(this);
       selectedNode.select("text").remove();
+      selectedNode.classed("flipped",true)
       selectedNode.append("text")
       .attr({
         "text-anchor":"middle",
@@ -156,7 +170,7 @@
     })
     .attr("class","state");
 
-    node.call(drag);
+    this.lock(false,node,drag);
 
     node.append("circle")
     .attr({
