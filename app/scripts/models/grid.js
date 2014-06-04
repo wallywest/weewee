@@ -5,23 +5,22 @@
   var Grid = function Grid(options) {
     this.nodes = options.data;
     var self = this;
-    this.element = options.element
+    this.element = options.element;
     this.locked = false;
     this.cx = this.element.clientWidth;
     this.cy = this.element.clientHeight;
     this.ticks = 50;
+    this.radius = 50;
 
     this.size = {
       "width": this.cx,
       "height": this.cy
-    }
+    };
 
-    this.height = function() {
-      this.element.clientHeight;
-    }
+    this.height = this.element.clientHeight;
 
     this.width = function() {
-    }
+    };
 
     this.x = d3.scale.linear()
     .domain([1,100])
@@ -30,7 +29,7 @@
 
     this.y = d3.scale.linear()
     .domain([1,100])
-    .range([0,this.size.height])
+    .range([0,this.size.height]);
 
     this.downx = Math.NaN;
     this.downy = Math.NaN;
@@ -39,7 +38,7 @@
 
     this.vis = d3.select(this.element).append("svg")
     .append("g")
-    .attr('transform',"translate(-5,-5)")
+    .attr('transform',"translate(-5,-5)");
 
     this.container = this.vis.append("g")
     .attr("class","grid");
@@ -52,7 +51,7 @@
     //);
 
     this.redraw();
-  }
+  };
 
   Grid.prototype.redraw = function() {
     console.log("calling redraw");
@@ -60,15 +59,15 @@
 
     var tx = function(d) {
       return "translate("+self.x(d)+",0)";
-    }
+    };
 
     var ty = function(d) {
       return "translate(0,"+self.x(d)+")";
-    }
+    };
 
     var stroke = function(d) {
       return d ? "#ccc":"#666";
-    }
+    };
 
     //x-ticks
     var gx = self.container.selectAll("g.x")
@@ -104,7 +103,7 @@
     gy.exit().remove();
 
     self.drawNodes();
-  }
+  };
 
   Grid.prototype.lock = function(value,node,dragCallback) {
     if(value) {
@@ -114,9 +113,36 @@
       //unlock
       node.call(dragCallback);
     }
-  }
+  };
 
   Grid.prototype.drawNodes = function() {
+    var toggleFlip = function(node) {
+      var selectedNode = d3.select(node)
+      //this remove all draggable events
+      .style("pointer-events","none");
+      selectedNode.select("text").remove();
+
+      selectedNode.transition()
+      .duration(750)
+      .attr("transform", function(d){
+        return "translate("+[d.x,d.y]+")scale(-1,1)";
+      }).each("end",function(){
+        d3.select(this)
+        .style("pointer-events","all")
+        .attr("transform",function(d){
+          return "translate("+[d.x,d.y]+")scale(1)"
+        })
+        .append("text")
+        .attr({
+          "text-anchor":"middle",
+          y:4
+        })
+        .text(function(d){
+          return d.label;
+        });
+      });
+    }
+
     var drag = d3.behavior.drag()
       .on("drag",function(d,i){
         var selection = d3.selectAll( '.selected');
@@ -139,19 +165,12 @@
       });
 
     var clickCallback = function(d) {
+      var flippable = true;
       if (d3.event.defaultPrevented) return;
-      var selectedNode = d3.select(this);
-      selectedNode.select("text").remove();
-      selectedNode.classed("flipped",true)
-      selectedNode.append("text")
-      .attr({
-        "text-anchor":"middle",
-        y:4
-      })
-      .text(function(d){
-        console.log(d.label)
-        return d.label;
-      });
+
+      if(flippable) {
+        toggleFlip(this);
+      }
     };
 
     var mouseoutCallback = function(d){
@@ -174,7 +193,7 @@
 
     node.append("circle")
     .attr({
-      "r": 40,
+      "r": this.radius,
       "class": "inner"
     });
 

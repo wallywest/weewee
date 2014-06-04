@@ -5,9 +5,7 @@
     var options;
 
     this.data = [
-      { x : 50, y : 100, label : "Batman", type: "circle"},
-      { x : 50, y : 200, label : "Superman", type: "rectangle"},
-      { x : 50, y : 300, label : "Flash", type: "bolt"}
+      { x : 400, y : 400, label : "Batman", type: "circle"}
     ];
 
     var randomX = d3.random.normal(960/2,300);
@@ -61,7 +59,7 @@
       var options = {
         element: element,
         margin: margin,
-        data: this.voltronElements()
+        data: this.data
       };
 
       var grid = new Grid(options);
