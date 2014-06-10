@@ -1,53 +1,108 @@
 {
-  "name": "gulpie",
-  "version": "0.0.1",
+  "name": "vcme-dash",
+  "version": "0.2.7",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.vailsys.com/jerny/gulpie.git"
+    "url": "https://gitlab.vailsys.com/vcme/dash.git"
   },
-  "dependencies": {},
+  "dependencies": {
+    "angular": "^1.2.0",
+    "lodash": "^2.4",
+    "moment": "^2.6.0",
+    "jquery": "^1.11"
+  },
+  "browser": {
+    "intro.js": "./bower_components/intro.js/intro.js",
+    "angular-ui-router": "./bower_components/angular-ui-router/release/angular-ui-router.js",
+    "angular-ui-utils-inflector": "./bower_components/angular-ui-utils/inflector.js",
+    "once": "./bower_components/angular-once/once.js",
+    "angular-google-chart": "./bower_components/angular-google-chart/ng-google-chart.js",
+    "bootstrap-dropdown": "./bower_components/sass-bootstrap/js/bootstrap-dropdown.js",
+    "angular-mocks": "./bower_components/angular-mocks/angular-mocks.js"
+  },
+  "browserify-shim": {
+    "angular-ui-router": {
+      "depends": [
+        "angular"
+      ]
+    },
+    "angular-ui-utils-inflector": {
+      "depends": [
+        "angular"
+      ]
+    },
+    "once": {
+      "depends": [
+        "angular"
+      ]
+    },
+    "angular-google-chart": {
+      "depends": [
+        "angular"
+      ]
+    },
+    "bootstrap-dropdown": {
+      "depends": [
+        "jquery:jQuery"
+      ]
+    },
+    "angular-mocks": {
+      "depends": [
+        "angular"
+      ]
+    },
+    "intro.js": "introJs"
+  },
   "devDependencies": {
-    "bower-files": "^1.1.4",
-    "gulp": "^3.6.2",
-    "gulp-angular-templatecache": "^1.1.3",
-    "gulp-autoprefixer": "0.0.7",
-    "gulp-bump": "^0.1.8",
-    "gulp-changed": "^0.3.0",
-    "gulp-clean": "~0.2.4",
-    "gulp-combine-media-queries": "0.0.1",
-    "gulp-concat": "^2.2.0",
-    "gulp-connect": "^2.0.5",
-    "gulp-exec": "^2.0.1",
-    "gulp-filter": "^0.4.1",
-    "gulp-git": "^0.4.2",
+    "bower-files": "^1.1",
+    "browserify": "^4.1.5",
+    "browserify-angular-injector": "^1.0",
+    "browserify-shim": "^3.5",
+    "debowerify": "^0.1",
+    "envify": "^1.2",
+    "gulp": "^3.6",
+    "gulp-angular-templatecache": "^1.1",
+    "gulp-autoprefixer": "^0.0.7",
+    "gulp-bump": "^0.1",
+    "gulp-changed": "^0.3",
+    "gulp-clean": "^0.2",
+    "gulp-combine-media-queries": "^0.0.1",
+    "gulp-concat": "^2.2",
+    "gulp-connect": "^2.0",
+    "gulp-exec": "^2.0",
+    "gulp-filter": "^0.4",
+    "gulp-git": "^0.4",
     "gulp-gzip": "0.0.8",
-    "gulp-imagemin": "^0.5.0",
-    "gulp-inject": "^0.4.1",
-    "gulp-jshint": "^1.5.5",
+    "gulp-imagemin": "^0.5",
+    "gulp-inject": "^0.4",
+    "gulp-jshint": "^1.5",
     "gulp-karma": "^0.0.4",
-    "gulp-load-plugins": "^0.5.1",
-    "gulp-minify-css": "^0.3.4",
-    "gulp-minify-html": "^0.1.3",
-    "gulp-ngmin": "^0.3.0",
-    "gulp-open": "^0.2.8",
-    "gulp-plumber": "^0.6.1",
-    "gulp-preprocess": "^1.0.1",
-    "gulp-rev": "^0.3.2",
-    "gulp-ruby-sass": "^0.4.3",
-    "gulp-size": "^0.3.1",
+    "gulp-load-plugins": "^0.5",
+    "gulp-minify-css": "^0.3",
+    "gulp-minify-html": "^0.1",
+    "gulp-open": "^0.2",
+    "gulp-plumber": "^0.6",
+    "gulp-preprocess": "^1.0",
+    "gulp-rev": "^0.4",
+    "gulp-ruby-sass": "^0.4",
+    "gulp-size": "^0.3",
     "gulp-slim": "^0.0.5",
-    "gulp-tar": "^0.4.0",
-    "gulp-uglify": "^0.3.0",
-    "gulp-util": "^2.2.14",
-    "imagemin": "^0.4.6",
-    "jshint-stylish": "^0.2.0",
-    "karma": "^0.12.16",
-    "karma-chrome-launcher": "^0.1.3",
-    "karma-html2js-preprocessor": "^0.1.0",
-    "karma-jasmine": "^0.1.5",
-    "karma-phantomjs-launcher": "^0.1.4",
-    "lodash": "^2.4.1",
-    "ngmin": "^0.5.0",
-    "run-sequence": "^0.3.6"
+    "gulp-streamify": "^0.0.5",
+    "gulp-tar": "^0.4",
+    "gulp-util": "^2.2",
+    "html2js-browserify": "^0.0.2",
+    "imagemin": "^0.4",
+    "jshint-stylish": "^0.2",
+    "karma": "^0.12",
+    "karma-bro": "^0.3",
+    "karma-chrome-launcher": "^0.1",
+    "karma-html2js-preprocessor": "^0.1",
+    "karma-jasmine": "^0.1",
+    "karma-phantomjs-launcher": "^0.1",
+    "require-dir": "^0.1.0",
+    "run-sequence": "^0.3",
+    "uglifyify": "^2.4",
+    "vinyl-source-stream": "^0.1",
+    "watchify": "^0.10"
   }
 }
