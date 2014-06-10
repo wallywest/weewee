@@ -1,4 +1,5 @@
 var _ = require('lodash'),
+    requireDir = require('require-dir'),
     browserify = require('browserify'),
     gulp = require('gulp'),
     path = require('path'),
@@ -6,6 +7,9 @@ var _ = require('lodash'),
     runSequence = require('run-sequence'),
     source = require('vinyl-source-stream'),
     watchify = require('watchify');
+
+//load tasks
+var dir = requireDir('./tasks');
 
 function bumpType() {
   return env.minor ? 'minor' : env.major ? 'major' : 'patch';
