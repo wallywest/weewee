@@ -1,7 +1,9 @@
 // Bootstrap -- base
 @import 'sass-bootstrap/lib/bootstrap';
+@import 'sass-bootstrap/lib/dropdowns';
 
 //Gulpie
 @import 'common/global';
-@import 'editor/editor';
-@import 'editor/toolbar';
+@import 'canvas/editor';
+@import 'canvas/toolbar';
+@import 'canvas/grid';

@@ -1,3 +1,7 @@
+body {
+  background: url(/images/pattern_tile.png) repeat;
+}
+
 .editor-wrapper {
   position: fixed;
   bottom: 0;
@@ -7,6 +11,7 @@
 
 .editor-canvas-wrapper {
   height: 100%;
+  //background: url(/images/pattern_tile.png) repeat;
 }
 
 svg {

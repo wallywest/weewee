@@ -5,6 +5,54 @@
     "type": "git",
     "url": "https://gitlab.vailsys.com/jerny/gulpie.git"
   },
+  "dependencies": {
+    "angular": "^1.2.0",
+    "lodash": "^2.4",
+    "moment": "^2.6.0",
+    "jquery": "^1.11"
+  },
+  "browser": {
+    "d3": "./bower_components/d3/d3.js",
+    "angular-ui-router": "./bower_components/angular-ui-router/release/angular-ui-router.js",
+    "angular-ui-utils-inflector": "./bower_components/angular-ui-utils/inflector.js",
+    "once": "./bower_components/angular-once/once.js",
+    "angular-google-chart": "./bower_components/angular-google-chart/ng-google-chart.js",
+    "bootstrap-dropdown": "./bower_components/sass-bootstrap/js/dropdown.js",
+    "angular-mocks": "./bower_components/angular-mocks/angular-mocks.js"
+  },
+  "browserify-shim": {
+    "angular-ui-router": {
+      "depends": [
+        "angular"
+      ]
+    },
+    "angular-ui-utils-inflector": {
+      "depends": [
+        "angular"
+      ]
+    },
+    "once": {
+      "depends": [
+        "angular"
+      ]
+    },
+    "angular-google-chart": {
+      "depends": [
+        "angular"
+      ]
+    },
+    "bootstrap-dropdown": {
+      "depends": [
+        "jquery:jQuery"
+      ]
+    },
+    "angular-mocks": {
+      "depends": [
+        "angular"
+      ]
+    },
+    "d3": "d3"
+  },
   "dependencies": {},
   "devDependencies": {
     "bower-files": "^1.1.4",

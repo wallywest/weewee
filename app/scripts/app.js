@@ -1,21 +1,13 @@
-(function(angular){
-  'use strict';
+'use strict';
+require('angular');
+require('bootstrap-dropdown');
 
-  var app = angular.module('gulpie.app',[
-    'ui.router',
-    'gulpie.editor'
-  ]);
+var app = angular.module('gulpie.app',[
+  require('angular-ui-router'),
+  require('./canvas').name
+]);
 
-  app.config(function($stateProvider,$urlRouterProvider){
-    $urlRouterProvider.otherwise('/editor');
-    $stateProvider
-      .state('editor',{
-        url:'/editor',
-        templateUrl: 'views/editor.html'
-      });
-  });
+app.controller('ApplicationCtrl',function(){
+});
 
-  app.controller('ApplicationCtrl',function(){
-  });
-
-}(window.angular));
+module.exports = app;

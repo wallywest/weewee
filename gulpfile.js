@@ -138,6 +138,20 @@ var config = {
   srcSpecs: [bowerPath('angular-mocks/angular-mocks.js'), 'test/**/*-spec.js']
 };
 
+var _bundler;
+function bundler() {
+  if (_bundler) return _bundler;
+
+  _bundler = env.deployment ? browserify(config.srcScripts) : watchify(config.srcScripts);
+  _bundler.transform('browserify-shim');
+  _bundler.transform('browserify-angular-injector');
+  _bundler.transform('envify');
+  if (env.deployment) {
+    _bundler.transform({global: true}, 'uglifyify');
+  }
+  return _bundler;
+}
+
 // deployment config
 var deployment = templateObjectWithSelf({
   name: packageConfig.name,
@@ -223,14 +237,14 @@ gulp.task('vendorScripts', function () {
 });
 
 // files to fix < ie9
-gulp.task('ieFixes', function () {
-  return gulp.src(config.srcIEFixes)
-      .pipe(jsFilter)
-      .pipe(gulp.dest(config.destIEFixes))
-      .pipe(jsFilter.restore())
-      .pipe(lp.filter('*.htc'))
-      .pipe(gulp.dest(buildPath()));
-});
+/*gulp.task('ieFixes', function () {*/
+  //return gulp.src(config.srcIEFixes)
+    //.pipe(jsFilter)
+    //.pipe(gulp.dest(config.destIEFixes))
+    //.pipe(jsFilter.restore())
+    //.pipe(lp.filter('*.htc'))
+    //.pipe(gulp.dest(buildPath()));
+/*});*/
 
 // minify images in production.
 gulp.task('images', function () {

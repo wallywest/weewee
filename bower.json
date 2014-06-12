@@ -12,8 +12,21 @@
     "moment": "^2.6.0",
     "angular-ui-utils": "*",
     "angular-once": "^0.1.6",
-    "d3": "~3.4.8",
-    "neat": "~1.6.0"
+    "d3": "~3.4.8"
+  },
+  "overrides": {
+    "es5-shim": {
+      "main": " "
+    },
+    "selectivizr": {
+      "main": " "
+    },
+    "box-sizing-polyfill": {
+      "main": " "
+    },
+    "json3": {
+      "main": " "
+    }
   },
   "devDependencies": {
     "angular-mocks": "^1.2.0"
