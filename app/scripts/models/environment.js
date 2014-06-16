@@ -31,7 +31,8 @@ _.extend(Environment.prototype,{
   },
 
   addElement: function(type) {
-    var elements = this.generator.builder(type)();
+    var fn = this.generator.builder(type);
+    var elements = fn.call(this.generator);
     this.elements.push(elements);
     this.topo.drawElement(elements);
   },

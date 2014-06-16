@@ -153,19 +153,24 @@ _.extend(Topology.prototype,{
   },
 
   drawElement: function(element) {
+    var data = element;
+    if (!_.isArray(element)) {
+      data = [element];
+    }
     //only draw circle for now
-    var circles = this.vis.selectAll('circle')
-    .data([element])
+    var circles = this.vis.selectAll('node')
+    .data(data)
     .enter()
     .append('circle')
+    .attr('class','node')
     .attr('cx', function (d) { return d.x; })
     .attr('cy', function (d) { return d.y; })
     .attr('r', function (d) { return d.radius; })
-    .style('fill','black');
+    .style('fill','white');
   },
 
   clear: function() {
-    this.vis.selectAll('circle').remove();
+    this.vis.selectAll('node').remove();
   }
 
 })
