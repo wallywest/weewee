@@ -7,6 +7,7 @@ var app = angular.module('gulpie.app',[
   require('./canvas').name
 ]);
 
+app.config(require('./app-routes'));
 app.controller('ApplicationCtrl',function(){
 });
 

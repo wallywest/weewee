@@ -97,9 +97,9 @@ var config = {
       bowerComponents: bowerPath(),
 
       // IE specific fixes -- need to be copied
-      srcIEFixes: bowerPath(['es5-shim/es5-shim.js', 'json3/lib/json3.min.js', 'selectivizr/selectivizr.js', 'box-sizing-polyfill/boxsizing.htc']),
-      destIEFixes: buildPath('vendor/ie-fixes'),
-      concatIEFixes: 'ie-fixes.js',
+      /*srcIEFixes: bowerPath(['es5-shim/es5-shim.js', 'json3/lib/json3.min.js', 'selectivizr/selectivizr.js', 'box-sizing-polyfill/boxsizing.htc']),*/
+      //destIEFixes: buildPath('vendor/ie-fixes'),
+      /*concatIEFixes: 'ie-fixes.js',*/
 
       // html
       srcViews: appPath('views/**/*.html'),
@@ -221,14 +221,14 @@ gulp.task('scripts', ['jshint'], function () {
 });
 
 // files to fix < ie9
-gulp.task('ieFixes', function () {
-  return gulp.src(config.srcIEFixes)
-    .pipe(jsFilter)
-    .pipe(gulp.dest(config.destIEFixes))
-    .pipe(jsFilter.restore())
-    .pipe(lp.filter('*.htc'))
-    .pipe(gulp.dest(buildPath()));
-});
+/*gulp.task('ieFixes', function () {*/
+  //return gulp.src(config.srcIEFixes)
+    //.pipe(jsFilter)
+    //.pipe(gulp.dest(config.destIEFixes))
+    //.pipe(jsFilter.restore())
+    //.pipe(lp.filter('*.htc'))
+    //.pipe(gulp.dest(buildPath()));
+/*});*/
 
 // minify images in deployment
 gulp.task('images', function () {

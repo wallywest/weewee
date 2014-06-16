@@ -9,11 +9,6 @@
     "angular-ui-utils": "bower-inflector",
     "angular-once": "^0.1.6"
   },
-  "overrides": {
-    "json3": {
-      "main": " "
-    }
-  },
   "devDependencies": {
     "angular-mocks": "^1.2.0"
   }

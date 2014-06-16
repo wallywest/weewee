@@ -16,7 +16,7 @@
     "angular-ui-router": "./bower_components/angular-ui-router/release/angular-ui-router.js",
     "angular-ui-utils-inflector": "./bower_components/angular-ui-utils/inflector.js",
     "once": "./bower_components/angular-once/once.js",
-    "bootstrap-dropdown": "./bower_components/sass-bootstrap/js/bootstrap-dropdown.js",
+    "bootstrap-dropdown": "./bower_components/sass-bootstrap/js/dropdown.js",
     "angular-mocks": "./bower_components/angular-mocks/angular-mocks.js"
   },
   "browserify-shim": {

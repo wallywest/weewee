@@ -38,7 +38,6 @@ _.extend(Environment.prototype,{
 
   removeAll: function() {
     this.topo.clear();
-    //this.elements = [];
   },
 
   lockScreen: function() {
