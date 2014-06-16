@@ -169,6 +169,23 @@ _.extend(Topology.prototype,{
     .style('fill','white');
   },
 
+  bindFlip: function(selector) {
+    var topo = this;
+    d3.selectAll(selector).on('click',function(evt){
+      var e = this;
+      topo.clickHandler(e);
+    });
+  },
+
+  toggleFlip: function(element) {
+    console.log(element);
+  },
+
+  clickHandler: function(e) {
+    if (d3.event.defaultPrevent){return;};
+    this.toggleFlip(e)
+  },
+
   clear: function() {
     this.vis.selectAll('node').remove();
   }

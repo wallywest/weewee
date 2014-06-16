@@ -12,6 +12,6 @@ module.exports = ng(function CanvasToolbarCtrl($scope,environmentSvc){
     this.environmentSvc.removeAll();
     //this.environmentSvc.lockScreen();
     this.environmentSvc.addElement("voltron");
-    //this.environmentSvc.bindFlipping('.node');
+    this.environmentSvc.topo.bindFlip('.node');
   };
 });
