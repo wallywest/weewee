@@ -3,12 +3,12 @@
   "version": "0.0.1",
   "dependencies": {
     "json3": "^3.3.1",
-    "sass-bootstrap": "^2.3.2",
+    "sass-bootstrap": "3.0.2",
     "angular-ui-router": "^0.2.10",
-    "selectivizr": "^1.0.2",
     "reset-css": "^2.0.20110126",
     "angular-ui-utils": "bower-inflector",
-    "angular-once": "^0.1.6"
+    "angular-once": "^0.1.6",
+    "d3": "3.4.8"
   },
   "devDependencies": {
     "angular-mocks": "^1.2.0"

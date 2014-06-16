@@ -1,11 +1,11 @@
 var _ = require('lodash'),
-    browserify = require('browserify'),
-    gulp = require('gulp'),
-    path = require('path'),
-    lp = require('gulp-load-plugins')(), // automatically loads all plugins
-    runSequence = require('run-sequence'),
-    source = require('vinyl-source-stream'),
-    watchify = require('watchify');
+browserify = require('browserify'),
+gulp = require('gulp'),
+path = require('path'),
+lp = require('gulp-load-plugins')(), // automatically loads all plugins
+runSequence = require('run-sequence'),
+source = require('vinyl-source-stream'),
+watchify = require('watchify');
 
 function bumpType() {
   return env.minor ? 'minor' : env.major ? 'major' : 'patch';
@@ -64,13 +64,13 @@ function karmaConfig() {
 }
 
 var env = lp.util.env,
-    appPath = _.partial(join, './app'),
-    buildPath = _.partial(join, './build'),
-    bowerPath = _.partial(join, './bower_components'),
-    bowerFiles = require('bower-files')({dir: bowerPath()}),
-    packageConfig = require('./package.json'),
-    jsFilter = lp.filter('*.js'),
-    envs = ['development', 'alpha', 'production'];
+appPath = _.partial(join, './app'),
+buildPath = _.partial(join, './build'),
+bowerPath = _.partial(join, './bower_components'),
+bowerFiles = require('bower-files')({dir: bowerPath()}),
+packageConfig = require('./package.json'),
+jsFilter = lp.filter('*.js'),
+envs = ['development', 'alpha', 'production'];
 
 
 // setup the environment
@@ -86,61 +86,60 @@ process.env.APP_VERSION = packageConfig.version;
 lp.util.log('NODE_ENV = ' + process.env.NODE_ENV);
 
 var config = {
-      httpPort: '9000',
-      jsHint: '.jshintrc',
-      ngModule: 'voowee.app',
-      // ignore IE fixes when injecting scripts
-      ignoreInject: exclude(buildPath(['vendor/ie-fixes/{,**}'])),
-      // important libraries first
-      srcInject: buildPath(['**/reset.css', 'vendor/**/*', '**/*']),
-      bowerComponents: bowerPath(),
+  httpPort: '9000',
+  jsHint: '.jshintrc',
+  ngModule: 'voowee.app',
+  // ignore IE fixes when injecting scripts
+  ignoreInject: exclude(buildPath(['vendor/ie-fixes/{,**}'])),
+  // important libraries first
+  srcInject: buildPath(['**/reset.css', 'vendor/**/*', '**/*']),
+  bowerComponents: bowerPath(),
 
-      // IE specific fixes -- need to be copied
-      /*srcIEFixes: bowerPath(['es5-shim/es5-shim.js', 'json3/lib/json3.min.js', 'selectivizr/selectivizr.js', 'box-sizing-polyfill/boxsizing.htc']),*/
-      //destIEFixes: buildPath('vendor/ie-fixes'),
-      /*concatIEFixes: 'ie-fixes.js',*/
+  // IE specific fixes -- need to be copied
+  /*srcIEFixes: bowerPath(['es5-shim/es5-shim.js', 'json3/lib/json3.min.js', 'selectivizr/selectivizr.js', 'box-sizing-polyfill/boxsizing.htc']),*/
+  //destIEFixes: buildPath('vendor/ie-fixes'),
+  /*concatIEFixes: 'ie-fixes.js',*/
 
-      // html
-      srcViews: appPath('views/**/*.html'),
-      destViews: buildPath('views/'),
-      srcIndex: appPath('index.html'),
-      srcTemplates: appPath('templates/**/*.html'),
-      destTemplates: buildPath('templates/'),
+  // html
+  srcViews: appPath('views/**/*.html'),
+  destViews: buildPath('views/'),
+  srcIndex: appPath('index.html'),
+  srcTemplates: appPath('templates/**/*.html'),
+  destTemplates: buildPath('templates/'),
 
-      // plugin config
-      minifyHtml: {
-        empty: true,
-        cdata: true,
-        comments: true,
-        conditionals: true
-      },
-      slim: {
-        pretty: true
-      },
-      autoprefixer: ['last 2 versions', '> 1%', 'ie 7', 'ie 8'],
+  // plugin config
+  minifyHtml: {
+    empty: true,
+    cdata: true,
+    comments: true,
+    conditionals: true
+  },
+  slim: {
+    pretty: true
+  },
+  autoprefixer: ['last 2 versions', '> 1%', 'ie 7', 'ie 8'],
 
-      // styles
-      srcStyles: appPath('styles/**/*.scss'),
-      mainStyle: appPath('styles/main.scss'),
-      destStyles: buildPath('styles'),
-      destVendorStyles: buildPath('vendor/styles'),
-      concatVendorStyle: 'vendor.css',
-      concatStyle: 'main.css',
+  // styles
+  srcStyles: appPath('styles/**/*.scss'),
+  mainStyle: appPath('styles/main.scss'),
+  destStyles: buildPath('styles'),
+  destVendorStyles: buildPath('vendor/styles'),
+  concatVendorStyle: 'vendor.css',
+  concatStyle: 'main.css',
 
-      // scripts
-      srcScripts: ['./app/scripts/app.js'],
-      destScripts: buildPath('scripts'),
-      concatScript: 'main.js',
+  // scripts
+  srcScripts: ['./app/scripts/app.js'],
+  destScripts: buildPath('scripts'),
+  concatScript: 'main.js',
 
-// images
-      srcImg: appPath('images/**/*'),
-      destImg: buildPath('images'),
+  // images
+  srcImg: appPath('images/**/*'),
+  destImg: buildPath('images'),
 
-      // tests
-      karmaConfig: 'karma.conf.js',
-      srcSpecs: ['test/**/*-spec.js']
-    }
-  ;
+  // tests
+  karmaConfig: 'karma.conf.js',
+  srcSpecs: ['test/**/*-spec.js']
+};
 
 var bundler = _.memoize(function () {
   var _bundler = env.deployment ? browserify(config.srcScripts) : watchify(config.srcScripts);
@@ -170,111 +169,111 @@ var deploymentConfig = _.memoize(function () {
 // compile sass. minify, concat, rev only in deployment mode
 gulp.task('styles', function () {
   return gulp.src(config.mainStyle)
-    .pipe(devOnly(lp.plumber()))
-    .pipe(lp.rubySass({
-      loadPath: config.bowerComponents
-    }))
-    .pipe(deployOnly(lp.autoprefixer(config.autoprefixer)))
-    .pipe(deployOnly(lp.combineMediaQueries()))
-    .pipe(deployOnly(lp.minifyCss()))
-    .pipe(deployOnly(lp.concat(config.concatStyle)))
-    .pipe(deployOnly(lp.rev()))
-    .pipe(gulp.dest(config.destStyles))
-    .pipe(lp.connect.reload());
+  .pipe(devOnly(lp.plumber()))
+  .pipe(lp.rubySass({
+    loadPath: config.bowerComponents
+  }))
+  .pipe(deployOnly(lp.autoprefixer(config.autoprefixer)))
+  .pipe(deployOnly(lp.combineMediaQueries()))
+  .pipe(deployOnly(lp.minifyCss()))
+  .pipe(deployOnly(lp.concat(config.concatStyle)))
+  .pipe(deployOnly(lp.rev()))
+  .pipe(gulp.dest(config.destStyles))
+  .pipe(lp.connect.reload());
 });
 
 // minify, concat, rev vendor css
 gulp.task('vendorStyles', function () {
   return gulp.src(bowerFiles.css)
-    .pipe(devOnly(lp.plumber()))
-    .pipe(lp.changed(config.destVendorStyles))
-    .pipe(deployOnly(lp.autoprefixer(config.autoprefixer)))
-    .pipe(deployOnly(lp.minifyCss()))
-    .pipe(deployOnly(lp.concat(config.concatVendorStyle)))
-    .pipe(deployOnly(lp.rev()))
-    .pipe(gulp.dest(config.destVendorStyles))
-    .pipe(lp.connect.reload());
+  .pipe(devOnly(lp.plumber()))
+  .pipe(lp.changed(config.destVendorStyles))
+  .pipe(deployOnly(lp.autoprefixer(config.autoprefixer)))
+  .pipe(deployOnly(lp.minifyCss()))
+  .pipe(deployOnly(lp.concat(config.concatVendorStyle)))
+  .pipe(deployOnly(lp.rev()))
+  .pipe(gulp.dest(config.destVendorStyles))
+  .pipe(lp.connect.reload());
 });
 
 // lint the code
 gulp.task('jshint', function () {
   return gulp.src(config.srcScripts)
-    .pipe(devOnly(lp.plumber()))
-    .pipe(lp.changed(config.destScripts))
-    .pipe(lp.jshint(config.jsHint))
-    .pipe(lp.jshint.reporter('jshint-stylish'))
-    .pipe(deployOnly(lp.jshint.reporter('fail')));
+  .pipe(devOnly(lp.plumber()))
+  .pipe(lp.changed(config.destScripts))
+  .pipe(lp.jshint(config.jsHint))
+  .pipe(lp.jshint.reporter('jshint-stylish'))
+  .pipe(deployOnly(lp.jshint.reporter('fail')));
 });
 
 // lint js. minify, concat, uglify, and rev in deployment mode
 gulp.task('scripts', ['jshint'], function () {
   return bundler()
-    .bundle({
-      debug: !env.deployment
-    })
-    .pipe(devOnly(lp.plumber()))
-    .pipe(source('app.js'))
-    .pipe(deployOnly(lp.streamify(lp.rev())))
-    .pipe(gulp.dest(config.destScripts))
-    .pipe(lp.connect.reload());
+  .bundle({
+    debug: !env.deployment
+  })
+  .pipe(devOnly(lp.plumber()))
+  .pipe(source('app.js'))
+  .pipe(deployOnly(lp.streamify(lp.rev())))
+  .pipe(gulp.dest(config.destScripts))
+  .pipe(lp.connect.reload());
 });
 
 // files to fix < ie9
 /*gulp.task('ieFixes', function () {*/
-  //return gulp.src(config.srcIEFixes)
-    //.pipe(jsFilter)
-    //.pipe(gulp.dest(config.destIEFixes))
-    //.pipe(jsFilter.restore())
-    //.pipe(lp.filter('*.htc'))
-    //.pipe(gulp.dest(buildPath()));
+//return gulp.src(config.srcIEFixes)
+//.pipe(jsFilter)
+//.pipe(gulp.dest(config.destIEFixes))
+//.pipe(jsFilter.restore())
+//.pipe(lp.filter('*.htc'))
+//.pipe(gulp.dest(buildPath()));
 /*});*/
 
 // minify images in deployment
 gulp.task('images', function () {
   return gulp.src(config.srcImg)
-    .pipe(devOnly(lp.plumber()))
-    .pipe(lp.changed(config.destImg))
-    .pipe(deployOnly(lp.imagemin()))
-    .pipe(gulp.dest(config.destImg))
-    .pipe(lp.connect.reload());
+  .pipe(devOnly(lp.plumber()))
+  .pipe(lp.changed(config.destImg))
+  .pipe(deployOnly(lp.imagemin()))
+  .pipe(gulp.dest(config.destImg))
+  .pipe(lp.connect.reload());
 });
 
 // compile slim. minify in deployment mode
 gulp.task('views', function () {
   return gulp.src(config.srcViews)
-    .pipe(devOnly(lp.plumber()))
-    .pipe(lp.changed(config.destViews, {extension: '.html'}))
-    .pipe(deployOnly(lp.minifyHtml(config.minifyHtml)))
-    .pipe(gulp.dest(config.destViews))
-    .pipe(lp.connect.reload());
+  .pipe(devOnly(lp.plumber()))
+  .pipe(lp.changed(config.destViews, {extension: '.html'}))
+  .pipe(deployOnly(lp.minifyHtml(config.minifyHtml)))
+  .pipe(gulp.dest(config.destViews))
+  .pipe(lp.connect.reload());
 });
 
 // compile index and inject dependencies
 gulp.task('index', ['styles', 'vendorStyles', 'scripts', 'templates'], function () {
   return gulp.src(config.srcIndex)
-    .pipe(devOnly(lp.plumber()))
-    .pipe(lp.inject(gulp.src(_.union(config.ignoreInject, config.srcInject), {read: false}), {
-      ignorePath: [buildPath()]
-    }))
-    .pipe(deployOnly(lp.minifyHtml(config.minifyHtml)))
-    .pipe(gulp.dest(buildPath()))
-    .pipe(lp.connect.reload());
+  .pipe(devOnly(lp.plumber()))
+  .pipe(lp.inject(gulp.src(_.union(config.ignoreInject, config.srcInject), {read: false}), {
+    ignorePath: [buildPath()]
+  }))
+  .pipe(deployOnly(lp.minifyHtml(config.minifyHtml)))
+  .pipe(gulp.dest(buildPath()))
+  .pipe(lp.connect.reload());
 });
 
 // compile templates into angular template cache
 gulp.task('templates', function () {
   return gulp.src(config.srcTemplates)
-    .pipe(devOnly(lp.plumber()))
-    .pipe(lp.changed(config.destTemplates, {extension: '.html'}))
-    .pipe(deployOnly(lp.minifyHtml(config.minifyHtml)))
-    .pipe(gulp.dest(config.destTemplates))
-    .pipe(lp.connect.reload());
+  .pipe(devOnly(lp.plumber()))
+  .pipe(lp.changed(config.destTemplates, {extension: '.html'}))
+  .pipe(deployOnly(lp.minifyHtml(config.minifyHtml)))
+  .pipe(gulp.dest(config.destTemplates))
+  .pipe(lp.connect.reload());
 });
 
 // clean 'build/' and tarballs
 gulp.task('clean', function () {
   return gulp.src([buildPath(), '*.tar.gz'], {read: false})
-    .pipe(lp.clean());
+  .pipe(lp.clean());
 });
 
 // watches files
@@ -308,9 +307,9 @@ gulp.task('server', function () {
 gulp.task('archive', ['build'], function () {
   var deployment = deploymentConfig();
   return gulp.src(buildPath('**/*'))
-    .pipe(lp.tar(deployment.archiveName))
-    .pipe(lp.gzip())
-    .pipe(gulp.dest('.'));
+  .pipe(lp.tar(deployment.archiveName))
+  .pipe(lp.gzip())
+  .pipe(gulp.dest('.'));
 });
 
 gulp.task('runDeploy', function () {
@@ -319,8 +318,8 @@ gulp.task('runDeploy', function () {
   lp.util.log('deploy: ' + deployCmd);
   deployCmd = deployCmd ? lp.exec(deployCmd) : lp.util.noop();
   return gulp.src('package.json', {read: false})
-    .pipe(lp.exec(deployment.scpCmd))
-    .pipe(deployCmd);
+  .pipe(lp.exec(deployment.scpCmd))
+  .pipe(deployCmd);
 });
 
 // deploys application
@@ -338,14 +337,14 @@ gulp.task('deploy', function (cb) {
 // use --patch (default), --minor, or --major
 gulp.task('bumpVersion', function () {
   return gulp.src(['package.json', 'bower.json'])
-    .pipe(lp.bump({type: bumpType()}))
-    .pipe(gulp.dest('.'))
+  .pipe(lp.bump({type: bumpType()}))
+  .pipe(gulp.dest('.'))
 });
 
 // Commits version files
 gulp.task('commitVersion', function () {
   return gulp.src(['package.json', 'bower.json'])
-    .pipe(lp.git.commit(currentVersion()), {args: '-a'});
+  .pipe(lp.git.commit(currentVersion()), {args: '-a'});
 });
 
 // runs all unit tests in PhantomJS by default
@@ -354,10 +353,10 @@ gulp.task('commitVersion', function () {
 gulp.task('spec', function () {
   process.env.NODE_ENV = 'test';
   return gulp.src(specFiles())
-    .pipe(lp.karma(karmaConfig()))
-    .on('error', function (err) {
-      throw err;
-    });
+  .pipe(lp.karma(karmaConfig()))
+  .on('error', function (err) {
+    throw err;
+  });
 });
 
 gulp.task('test', ['spec']);

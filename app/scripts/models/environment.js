@@ -31,9 +31,9 @@ _.extend(Environment.prototype,{
   },
 
   addElement: function(type) {
-    var element = this.generator.circle();
-    this.elements.push(element);
-    this.topo.drawElement(element);
+    var elements = this.generator.builder(type)();
+    this.elements.push(elements);
+    this.topo.drawElement(elements);
   },
 
   removeAll: function() {
