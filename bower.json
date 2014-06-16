@@ -1,38 +1,14 @@
 {
-  "name": "vcme-dash",
-  "version": "0.2.7",
+  "name": "voowee",
+  "version": "0.0.1",
   "dependencies": {
     "json3": "^3.3.1",
-    "es5-shim": "^3.1.1",
     "sass-bootstrap": "^2.3.2",
-    "box-sizing-polyfill": "*",
     "angular-ui-router": "^0.2.10",
     "selectivizr": "^1.0.2",
     "reset-css": "^2.0.20110126",
-    "angular-google-chart": "^0.0.9",
     "angular-ui-utils": "bower-inflector",
-    "intro.js": "^0.8.0",
     "angular-once": "^0.1.6"
-  },
-  "overrides": {
-    "es5-shim": {
-      "main": " "
-    },
-    "selectivizr": {
-      "main": " "
-    },
-    "bourbon": {
-      "main": " "
-    },
-    "bitters": {
-      "main": " "
-    },
-    "box-sizing-polyfill": {
-      "main": " "
-    },
-    "json3": {
-      "main": " "
-    }
   },
   "devDependencies": {
     "angular-mocks": "^1.2.0"

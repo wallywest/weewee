@@ -1,0 +1,35 @@
+<div class='canvas.container'>
+  <div id='editor-toolbar' class='toolbar-wrapper' ng-controller='CanvasToolbarCtrl as canvasToolBarCtrl'>
+    <nav class="navbar navbar-inverse" role="navigation">
+      <div class='container-fluid'>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Demo<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a ng-click='canvasToolBarCtrl.loadCircle()' href="#">Panning/Zooming</a></li>
+              <li><a ng-click='canvasToolBarCtrl.loadVoltron()' href="#">Voltron</a></li>
+            </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">File<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">New</a></li>
+              <li><a href="#">Save</a></li>
+            </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="" ><i class="glyphicon glyphicon-lock"></i></a></li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </div>
+  <div id='editor-canvas' class='editor-canvas-wrapper' ng-controller='CanvasCtrl as canvasCanvasCtrl'>
+    <div v-canvas-grid></div>
+  </div>
+</div>

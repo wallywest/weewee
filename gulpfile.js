@@ -1,5 +1,4 @@
 var _ = require('lodash'),
-    requireDir = require('require-dir'),
     browserify = require('browserify'),
     gulp = require('gulp'),
     path = require('path'),
@@ -8,15 +7,12 @@ var _ = require('lodash'),
     source = require('vinyl-source-stream'),
     watchify = require('watchify');
 
-//load tasks
-var dir = requireDir('./tasks');
-
 function bumpType() {
   return env.minor ? 'minor' : env.major ? 'major' : 'patch';
 }
 
 function currentVersion() {
-  return 'v' + requireUncached('./package.json').version;
+  return requireUncached('./package.json').version;
 }
 
 function devOnly(transform) {
@@ -87,13 +83,12 @@ if (!process.env.NODE_ENV) {
 }
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 process.env.APP_VERSION = packageConfig.version;
-
 lp.util.log('NODE_ENV = ' + process.env.NODE_ENV);
 
 var config = {
       httpPort: '9000',
       jsHint: '.jshintrc',
-      ngModule: 'vcme.app',
+      ngModule: 'voowee.app',
       // ignore IE fixes when injecting scripts
       ignoreInject: exclude(buildPath(['vendor/ie-fixes/{,**}'])),
       // important libraries first
@@ -101,9 +96,9 @@ var config = {
       bowerComponents: bowerPath(),
 
       // IE specific fixes -- need to be copied
-      srcIEFixes: bowerPath(['es5-shim/es5-shim.js', 'json3/lib/json3.min.js', 'selectivizr/selectivizr.js', 'box-sizing-polyfill/boxsizing.htc']),
-      destIEFixes: buildPath('vendor/ie-fixes'),
-      concatIEFixes: 'ie-fixes.js',
+      /*srcIEFixes: bowerPath(['es5-shim/es5-shim.js', 'json3/lib/json3.min.js', 'selectivizr/selectivizr.js', 'box-sizing-polyfill/boxsizing.htc']),*/
+      //destIEFixes: buildPath('vendor/ie-fixes'),
+      /*concatIEFixes: 'ie-fixes.js',*/
 
       // html
       srcViews: appPath('views/**/*.html'),
@@ -147,11 +142,8 @@ var config = {
     }
   ;
 
-var _bundler;
-function bundler() {
-  if (_bundler) return _bundler;
-
-  _bundler = env.deployment ? browserify(config.srcScripts) : watchify(config.srcScripts);
+var bundler = _.memoize(function () {
+  var _bundler = env.deployment ? browserify(config.srcScripts) : watchify(config.srcScripts);
   _bundler.transform('browserify-shim');
   _bundler.transform('browserify-angular-injector');
   _bundler.transform('envify');
@@ -159,18 +151,20 @@ function bundler() {
     _bundler.transform({global: true}, 'uglifyify');
   }
   return _bundler;
-}
+});
 
-// deployment config
-var deployment = templateObjectWithSelf({
-  name: packageConfig.name,
-  version: packageConfig.version,
-  env: process.env.NODE_ENV,
-  rsa: lp.util.env.rsa || '~/.ssh/deployerkey',
-  server: lp.util.env.server || 'deployer@dplcfe01.vail',
-  archiveName: '<%= name %>-<%= version %>-<%= env %>.tar',
-  scpCmd: 'scp -i <%= rsa %> <%= archiveName %>.gz <%= server %>:/home/deployer/vcme-dash',
-  alpha: 'ssh -i <%= rsa %> <%= server %> sudo /usr/local/bin/update-vcme-dash-alpha.pl <%= version %>'
+// deployment configuration
+var deploymentConfig = _.memoize(function () {
+  return templateObjectWithSelf({
+    name: packageConfig.name,
+    version: packageConfig.version,
+    env: process.env.NODE_ENV,
+    rsa: lp.util.env.rsa || '~/.ssh/deployerkey',
+    server: lp.util.env.server || 'deployer@dplcfe01.vail',
+    archiveName: '<%= name %>-<%= version %>-<%= env %>.tar',
+    scpCmd: 'scp -i <%= rsa %> <%= archiveName %>.gz <%= server %>:/home/deployer/vcme-dash',
+    alpha: 'ssh -i <%= rsa %> <%= server %> sudo /usr/local/bin/update-vcme-dash-alpha.pl <%= version %>-<%= env %>'
+  });
 });
 
 // compile sass. minify, concat, rev only in deployment mode
@@ -226,14 +220,14 @@ gulp.task('scripts', ['jshint'], function () {
 });
 
 // files to fix < ie9
-gulp.task('ieFixes', function () {
-  return gulp.src(config.srcIEFixes)
-    .pipe(jsFilter)
-    .pipe(gulp.dest(config.destIEFixes))
-    .pipe(jsFilter.restore())
-    .pipe(lp.filter('*.htc'))
-    .pipe(gulp.dest(buildPath()));
-});
+/*gulp.task('ieFixes', function () {*/
+  //return gulp.src(config.srcIEFixes)
+    //.pipe(jsFilter)
+    //.pipe(gulp.dest(config.destIEFixes))
+    //.pipe(jsFilter.restore())
+    //.pipe(lp.filter('*.htc'))
+    //.pipe(gulp.dest(buildPath()));
+/*});*/
 
 // minify images in deployment
 gulp.task('images', function () {
@@ -256,7 +250,7 @@ gulp.task('views', function () {
 });
 
 // compile index and inject dependencies
-gulp.task('index', ['styles', 'vendorStyles', 'scripts', 'templates', 'ieFixes'], function () {
+gulp.task('index', ['styles', 'vendorStyles', 'scripts', 'templates'], function () {
   return gulp.src(config.srcIndex)
     .pipe(devOnly(lp.plumber()))
     .pipe(lp.inject(gulp.src(_.union(config.ignoreInject, config.srcInject), {read: false}), {
@@ -280,7 +274,7 @@ gulp.task('templates', function () {
 // clean 'build/' and tarballs
 gulp.task('clean', function () {
   return gulp.src([buildPath(), '*.tar.gz'], {read: false})
-    .pipe(lp.clean())
+    .pipe(lp.clean());
 });
 
 // watches files
@@ -312,6 +306,7 @@ gulp.task('server', function () {
 
 // creates a tarball with all files in 'build/'
 gulp.task('archive', ['build'], function () {
+  var deployment = deploymentConfig();
   return gulp.src(buildPath('**/*'))
     .pipe(lp.tar(deployment.archiveName))
     .pipe(lp.gzip())
@@ -333,6 +328,9 @@ gulp.task('runDeploy', function () {
 // use --server to specify a deploy server
 gulp.task('deploy', function (cb) {
   env.deployment = true; // force deployment mode when deploying
+  if (process.env.NODE_ENV == 'development') {
+    process.env.NODE_ENV = 'alpha';
+  }
   runSequence('archive', 'runDeploy', cb);
 });
 

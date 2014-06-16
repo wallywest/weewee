@@ -1,37 +1,38 @@
 // Karma configuration
 // Generated on Fri Apr 11 2014 22:09:26 GMT-0500 (CDT)
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
 
+    browserify: {
+      debug: true,
+      transform: ['browserify-shim', 'browserify-angular-injector']
+    },
+
+    captureTimeout: 60000,
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ['browserify', 'jasmine'],
 
 
     // list of files / patterns to load in the browser
     files: [
-      'app/*.js',
-      'app/*/*.js',
-      'app/**/*.js',
-      'test/**/*-spec.js'
     ],
 
 
     // list of files to exclude
     exclude: [
-      
     ],
 
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-    
+      'test/**/*-spec.js': ['browserify']
     },
 
 

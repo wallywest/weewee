@@ -4,6 +4,6 @@ module.exports = ng(function($stateProvider,$urlRouterProvider) {
   $stateProvider
   .state('editor',{
     url:'/editor',
-    templateUrl: 'views/editor.html'
+    templateUrl: 'views/canvas.html'
   });
 });

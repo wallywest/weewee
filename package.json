@@ -1,9 +1,9 @@
 {
-  "name": "vcme-dash",
-  "version": "0.2.7",
+  "name": "voowee",
+  "version": "0.3.0",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.vailsys.com/vcme/dash.git"
+    "url": "https://gitlab.vailsys.com/voowee/voowee.git"
   },
   "dependencies": {
     "angular": "^1.2.0",
@@ -12,12 +12,11 @@
     "jquery": "^1.11"
   },
   "browser": {
-    "intro.js": "./bower_components/intro.js/intro.js",
+    "d3": "./bower_components/d3/d3.js",
     "angular-ui-router": "./bower_components/angular-ui-router/release/angular-ui-router.js",
     "angular-ui-utils-inflector": "./bower_components/angular-ui-utils/inflector.js",
     "once": "./bower_components/angular-once/once.js",
-    "angular-google-chart": "./bower_components/angular-google-chart/ng-google-chart.js",
-    "bootstrap-dropdown": "./bower_components/sass-bootstrap/js/bootstrap-dropdown.js",
+    "bootstrap-dropdown": "./bower_components/sass-bootstrap/js/dropdown.js",
     "angular-mocks": "./bower_components/angular-mocks/angular-mocks.js"
   },
   "browserify-shim": {
@@ -36,11 +35,6 @@
         "angular"
       ]
     },
-    "angular-google-chart": {
-      "depends": [
-        "angular"
-      ]
-    },
     "bootstrap-dropdown": {
       "depends": [
         "jquery:jQuery"
@@ -51,7 +45,7 @@
         "angular"
       ]
     },
-    "intro.js": "introJs"
+    "d3": "d3"
   },
   "devDependencies": {
     "bower-files": "^1.1",
@@ -99,7 +93,6 @@
     "karma-html2js-preprocessor": "^0.1",
     "karma-jasmine": "^0.1",
     "karma-phantomjs-launcher": "^0.1",
-    "require-dir": "^0.1.0",
     "run-sequence": "^0.3",
     "uglifyify": "^2.4",
     "vinyl-source-stream": "^0.1",
