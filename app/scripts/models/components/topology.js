@@ -97,8 +97,11 @@ _.extend(Topology.prototype,{
   },
 
   unlock: function() {
+    var self = this;
     this.locked = false;
-    this.zoom.on("zoom",self.zoomHandler(d3.event));
+    this.zoom.on("zoom",function(evt){
+      self.zoomHandler(d3.event);
+    });
   },
 
   //adjusting canvas based on events
@@ -154,40 +157,107 @@ _.extend(Topology.prototype,{
 
   drawElement: function(element) {
     var data = element;
+    var topo = this;
+
+    var drag = d3.behavior.drag()
+    .origin(function(d) { return d; })
+    .on("dragstart", function(d){
+      topo.dragstarted(d,this);
+    })
+    .on("drag", function(d){
+      topo.dragged(d,this);
+    })
+    .on("dragend", function(d){
+      topo.dragended(d,this);
+    });
+
     if (!_.isArray(element)) {
       data = [element];
     }
     //only draw circle for now
-    var circles = this.vis.selectAll('node')
+    var circles = this.vis.selectAll('state')
     .data(data)
     .enter()
     .append('circle')
-    .attr('class','node')
+    .attr('class','state')
     .attr('cx', function (d) { return d.x; })
     .attr('cy', function (d) { return d.y; })
     .attr('r', function (d) { return d.radius; })
     .style('fill','white');
+
+    circles.call(drag);
+  },
+
+  dragstarted: function(d,element) {
+    d3.event.sourceEvent.stopPropagation();
+    d3.select(element).classed("dragging", true);
+  },
+  dragended: function(d,element) {
+    d3.select(element).classed("dragging", false);
+  },
+  dragged: function(d,element) {
+    d3.select(element).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
   },
 
   bindFlip: function(selector) {
+    return;
     var topo = this;
-    d3.selectAll(selector).on('click',function(evt){
-      var e = this;
-      topo.clickHandler(e);
+    d3.selectAll('.state').on('click',function(evt){
+      var element = this;
+      topo.clickHandler(element,evt);
     });
   },
 
-  toggleFlip: function(element) {
-    console.log(element);
+  toggleFlip: function(element,evt) {
+    var node = d3.select(element)
+    .style('pointer-events','none');
+
+    node.select('text').remove();
+
+    node.transition()
+    .duration(750)
+    .attr('transform',function(d) {
+      return "translate("+[d.x,d.y]+")";
+      //return "translate("+[d.x,d.y]+")scale(-1,1)";
+    })
+    .each('end',function(d){
+      d3.select(this)
+      .attr('transform',function(d){
+        return "translate("+[d.x,d.y]+")scale(1)"
+      })
+      .append("text")
+      .attr({
+        'text-anchor':'middle',
+        y:4
+      })
+      .text(function(d){
+        return d.label;
+      });
+    });
+    /*.each('end',function() {*/
+      //d3.select(this)
+      //.style('pointer-events','none')
+      //.attr('transform',function(d){
+        //return "translate("+[d.x,d.y]+")scale(1)"
+      //})
+      //.append("text")
+      //.attr({
+        //'text-anchor':'middle',
+        //y:4
+      //})
+      //.text(function(d){
+        //return d.label;
+      //});
+    /*});*/
   },
 
-  clickHandler: function(e) {
+  clickHandler: function(element,evt) {
     if (d3.event.defaultPrevent){return;};
-    this.toggleFlip(e)
+    this.toggleFlip(element,evt)
   },
 
   clear: function() {
-    this.vis.selectAll('node').remove();
+    this.vis.selectAll('.state').remove();
   }
 
 })

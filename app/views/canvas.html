@@ -21,10 +21,10 @@
             </ul>
             </li>
           </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="" ><i class="glyphicon glyphicon-lock"></i></a></li>
-          </ul>
-
+          <form class="navbar-form navbar-right" role="options">
+            <button ng-click="canvasToolBarCtrl.toggleLock()" class="btn btn-default btn-xs navbar-btn" ng-bind="canvasToolBarCtrl.locked ? 'Unlock':'Lock'"></button>
+            <button ng-click="canvasToolBarCtrl.resetGrid()" class="btn btn-default btn-xs navbar-btn">Reset</button>
+          </form>
         </div>
       </div>
     </nav>
