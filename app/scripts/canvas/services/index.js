@@ -7,4 +7,6 @@ var generator = require('../../models/generator');
 module.exports = angular.module('gulpie.canvas.services',[
 ])
 .service('environmentSvc',[environment])
-.service('generatorSvc',[generator]);
+.service('generatorSvc',[generator])
+.service('widgetSvc',require('./widget'))
+.service('uuidSvc',require('./uuid'));

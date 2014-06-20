@@ -1,8 +1,9 @@
 'use strict';
 
-module.exports = ng(function CanvasToolbarCtrl($scope,environmentSvc){
+module.exports = ng(function CanvasToolbarCtrl($scope,environmentSvc,widgetSvc){
   this.environmentSvc = environmentSvc;
   this.locked = false;
+  this.widgets = widgetSvc.$get();
 
   this.loadCircle = function() {
     this.environmentSvc.removeAll();
@@ -13,7 +14,7 @@ module.exports = ng(function CanvasToolbarCtrl($scope,environmentSvc){
     this.environmentSvc.removeAll();
     //this.environmentSvc.lockScreen();
     this.environmentSvc.addElement("voltron");
-    this.environmentSvc.topo.bindFlip('.node');
+    //this.environmentSvc.topo.bindFlip('.node');
   };
 
   this.toggleLock = function() {
