@@ -47,6 +47,11 @@ _.extend(Environment.prototype,{
 
   unlockScreen: function() {
     this.topo.unlock();
+  },
+
+  drawWidget: function(position,widget) {
+    console.log('drawingWidget');
+    this.topo.drawWidget(position,widget);
   }
 
 });

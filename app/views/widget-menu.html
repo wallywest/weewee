@@ -1,0 +1,15 @@
+<ul class="nav navbar-nav">
+  <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Widgets<b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li ng-repeat='widget in canvasToolBarCtrl.widgets'>
+      <a v-draggable widget='widget' ng-click='canvasToolBarCtrl.addWidget(widget)' href='#'>
+        <div id='icon-container'>
+          <img class='widget-icon' ng-src='images/svg/{{widget.icon}}'></img>
+          {{widget.name}}
+        </div>
+      </a>
+    </li>
+  </ul>
+  </li>
+</ul>

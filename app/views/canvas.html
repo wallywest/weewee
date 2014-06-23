@@ -3,6 +3,7 @@
     <nav class="navbar navbar-inverse" role="navigation">
       <div class='container-fluid'>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <div v-widget-menu></div>
           <ul class="nav navbar-nav">
             <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Demo<b class="caret"></b></a>
@@ -12,7 +13,7 @@
             </ul>
             </li>
           </ul>
-          <ul class="nav navbar-nav">
+          <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">File<b class="caret"></b></a>
             <ul class="dropdown-menu">
@@ -30,6 +31,6 @@
     </nav>
   </div>
   <div id='editor-canvas' class='editor-canvas-wrapper' ng-controller='CanvasCtrl as canvasCanvasCtrl'>
-    <div v-canvas-grid></div>
+    <div v-context-menu v-canvas-grid v-droppable></div>
   </div>
 </div>
