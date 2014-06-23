@@ -3,7 +3,6 @@
 var d3 = require('d3');
 var _ = require('lodash');
 var $ = require('jquery');
-var Snap = require('snap');
 
 //constructor
 var Topology = function Topology(element) {
