@@ -1,7 +1,7 @@
 'use strict';
 require('angular');
 
-module.exports = ng(function vDroppable(uuidSvc){
+module.exports = ng(function vDroppable(uuidSvc,environmentSvc){
   var linkFn = function (scope,elem,attrs) {
     var id = angular.element(elem).attr("id");
 
@@ -39,11 +39,18 @@ module.exports = ng(function vDroppable(uuidSvc){
       };
 
       var data = e.dataTransfer.getData("id");
+      var widget = JSON.parse(e.dataTransfer.getData('widget'));
       var dest = document.getElementById(id);
       var src = document.getElementById(data);
+
+      console.log(e);
+      console.log(widget);
       console.log(data);
       console.log(dest);
       console.log(src);
+
+      var position = {x: e.x, y: e.y};
+      environmentSvc.drawWidget(position,widget);
 
     });
   };

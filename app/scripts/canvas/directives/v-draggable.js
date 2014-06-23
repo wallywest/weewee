@@ -15,6 +15,7 @@ module.exports = ng(function vDraggable(uuidSvc){
 
     elem.bind("dragstart",function(e){
       e.dataTransfer.setData('id', id);
+      e.dataTransfer.setData('widget', JSON.stringify(scope.widget));
     });
 
     elem.bind("dragend",function(e){

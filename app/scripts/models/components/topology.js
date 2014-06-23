@@ -3,6 +3,7 @@
 var d3 = require('d3');
 var _ = require('lodash');
 var $ = require('jquery');
+var Snap = require('snap');
 
 //constructor
 var Topology = function Topology(element) {
@@ -41,6 +42,7 @@ _.extend(Topology.prototype,{
     var canvas = d3.select(this.container);
     var base = canvas.append('div').classed('topology-canvas',true);
     var svg = base.append('svg:svg')
+    .attr('class','grid')
     .attr('width',this.width)
     .attr('height',this.height)
 
@@ -258,6 +260,38 @@ _.extend(Topology.prototype,{
 
   clear: function() {
     this.vis.selectAll('.state').remove();
+  },
+
+  drawWidget: function(position,widget) {
+    var ipath = "images/svg/"+widget.icon;
+
+    var group = this.vis.append("g");
+    
+    group
+    .append('image')
+    .classed('node-icon',true)
+    .attr('xlink:href',function() {
+        return ipath;
+    })
+    .attr("width",96)
+    .attr("height",96)
+    .attr("x",position.x)
+    .attr("y",position.y);
+    /*var circle = group*/
+    //.append("circle")
+    //.attr("class","widget")
+    //.attr('cx', function (d) { return position.x; })
+    //.attr('cy', function (d) { return position.y; })
+    //.attr('r', function (d) { return 20; })
+    /*.style('fill','white');*/
+
+    
+    /*.append("image")*/
+    //.attr("xlink:href",function(d) {
+      //return ipath;
+    //})
+    //.attr("width", '48')
+    /*.attr("height", '20');*/
   }
 
 })
